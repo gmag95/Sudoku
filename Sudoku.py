@@ -45,7 +45,7 @@ class Gui:
         
         #mouse click binding
         
-        self.root.bind("<Button-1>", getxy)
+        #self.root.bind("<Button-1>", getxy)
         for i in range(1,10):
             self.root.bind(f"{i}", getkey)
             
@@ -58,10 +58,14 @@ class Gui:
 
                 if data[x][y]==0:
                     self.box[x][y]=tk.Label(self.root, text=" ", image=self.i, relief="solid", width=50, height=50, compound="center", bg="white")
+                    self.box[x][y].bind("<1>", lambda event: handle_click(event))
                 else:
                     self.box[x][y]=tk.Label(self.root, text=data[x][y], image=self.i, relief="solid", width=50, height=50, compound="center", bg="white")
                     self.box[x][y].config(font=("Calibri", 18, "bold"))
+                    self.box[x][y].bind("<1>", lambda event: handle_click(event))
+
                 self.box[x][y].grid(row=x, column=y, padx=1, pady=1)
+                self.box[x][y].extra=x*9+y
         
         #initialization of the bottom interface
         
@@ -134,25 +138,26 @@ class Gui:
 
 #function that reads the mouse input abd highlights the pressed box
 
-def getxy(event):
+def handle_click(event):
+
+    global working, mou_x, mou_y
     
-    global mou_x, mou_y, working, click_hist
-    
+    mou_x = event.widget.extra//9
+    mou_y = event.widget.extra-(9*(mou_x))
+
     if working==False:
-        mou_y = (myboard.root.winfo_pointerx() - myboard.root.winfo_rootx())/58
-        mou_x = (myboard.root.winfo_pointery() - myboard.root.winfo_rooty())/58
         click_hist.append([int(mou_x), int(mou_y)])
         click_hist.pop(0)
         
         myboard.root.bind("<BackSpace>", deletion)
-        
+
         #this part of the code resets the previous box if the enter key was not pressed
-        
-        if click_hist[0][0]!="X" and mou_x<9 and mou_y<9:
+
+        if click_hist[0][0]!="X":
             if myboard.flagdf[click_hist[0][0]][click_hist[0][1]]==0 and myboard.box[click_hist[0][0]][click_hist[0][1]]["bg"]=="light grey":
                 myboard.box[click_hist[0][0]][click_hist[0][1]].config(bg="white", image=myboard.i, text=" ")
 
-        if mou_x<9 and mou_y<9 and myboard.box[int(mou_x)][int(mou_y)]["text"]==" ":
+        if myboard.box[int(mou_x)][int(mou_y)]["text"]==" ":
             myboard.box[int(mou_x)][int(mou_y)].config(bg="light grey", image=myboard.i)
 
 #this function grabs the number key and puts it in the box previously selected
@@ -247,10 +252,14 @@ def reset():
 
             if data[x][y]==0:
                 myboard.box[x][y]=tk.Label(myboard.root, text=" ", image=myboard.i, relief="solid", width=50, height=50, compound="center", bg="white")
+                myboard.box[x][y].bind("<1>", lambda event: handle_click(event))
             else:
                 myboard.box[x][y]=tk.Label(myboard.root, text=data[x][y], image=myboard.i, relief="solid", width=50, height=50, compound="center", bg="white")
                 myboard.box[x][y].config(font=("Calibri", 18, "bold"))
+                myboard.box[x][y].bind("<1>", lambda event: handle_click(event))
+
             myboard.box[x][y].grid(row=x, column=y, padx=1, pady=1)
+            myboard.box[x][y].extra=x*9+y
     
     #this part of code makes the automatic solver button active again
     
