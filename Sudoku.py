@@ -21,7 +21,7 @@ class Gui:
         self.flagdf=[[0 for x in range(9)] for row in range(9)]
 
         self.root = tk.Tk()
-        self.root.title("Sudoku solver")
+        self.root.title("Sudoku")
         
         #code necessary to center the window
         
