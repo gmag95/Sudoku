@@ -70,14 +70,14 @@ class Gui:
         #initialization of the bottom interface
         
         self.bottomframe=tk.LabelFrame(self.root, pady=2, relief="flat")
-        self.bottomframe.grid(row=10, columnspan=9)
+        self.bottomframe.grid(row=10, columnspan=9, sticky="w"+"e")
         
         self.clear_button=tk.Button(self.bottomframe, text="Clear inputs", command=reset)
-        self.clear_button.grid(row=1, column=1, padx=35)
+        self.clear_button.grid(row=1, column=1, padx=(65,0))
         self.start_button=tk.Button(self.bottomframe, text="Solve the sudoku", command=start)
-        self.start_button.grid(row=1, column=2, padx=35)
+        self.start_button.grid(row=1, column=2, padx=70)
         self.myclock=tk.Label(self.bottomframe, font = ('calibri', 12)) 
-        self.myclock.grid(row=1, column=3, padx=35)
+        self.myclock.grid(row=1, column=3, padx=20)
         self.start_time=datetime.datetime.now()
         self.timefunc()
         
@@ -113,10 +113,10 @@ class Gui:
         
         self.start_button.grid_forget()
         self.start_button=tk.Button(self.bottomframe, text="Solve the sudoku", command=start, state="disabled")
-        self.start_button.grid(row=1, column=2, padx=35)
+        self.start_button.grid(row=1, column=2, padx=70)
         self.clear_button.grid_forget()
         self.clear_button=tk.Button(self.bottomframe, text="Clear inputs", command=reset, state="disabled")
-        self.clear_button.grid(row=1, column=1, padx=35)
+        self.clear_button.grid(row=1, column=1, padx=(65, 0))
     
     def timefunc(self):
         
@@ -265,7 +265,7 @@ def reset():
     
     myboard.start_button.grid_forget()
     myboard.start_button=tk.Button(myboard.bottomframe, text="Solve the sudoku", command=start)
-    myboard.start_button.grid(row=1, column=2, padx=35)
+    myboard.start_button.grid(row=1, column=2, padx=70)
 
 #this function pops up a different window in case the sudoku was solved or not
 
@@ -308,7 +308,7 @@ def start():
     
     myboard.clear_button.grid_forget()
     myboard.clear_button=tk.Button(myboard.bottomframe, text="Clear inputs", command=reset)
-    myboard.clear_button.grid(row=1, column=1, padx=35)  
+    myboard.clear_button.grid(row=1, column=1, padx=(65, 0))  
 
 
 #function for the automatic solver
